@@ -269,5 +269,47 @@ for i in range(0, n_population):
 
 index_minimum = np.argmin(total_dist_all_individuals)
 
+
+
 minimum_distance = min(total_dist_all_individuals)
-minimum_distance
+st.write(minimum_distance)
+
+#shortest path
+# shortest_path = offspring_list[index_minimum]
+shortest_path = best_mixed_offspring[index_minimum]
+st.write(shortest_path)
+
+x_shortest = []
+y_shortest = []
+for city in shortest_path:
+    x_value, y_value = city_coords[city]
+    x_shortest.append(x_value)
+    y_shortest.append(y_value)
+
+x_shortest.append(x_shortest[0])
+y_shortest.append(y_shortest[0])
+
+fig, ax = plt.subplots()
+ax.plot(x_shortest, y_shortest, '--go', label='Best Route', linewidth=2.5)
+plt.legend()
+
+for i in range(len(x)):
+    for j in range(i + 1, len(x)):
+        ax.plot([x[i], x[j]], [y[i], y[j]], 'k-', alpha=0.09, linewidth=1)
+
+plt.title(label="TSP Best Route Using GA",
+          fontsize=25,
+          color="k")
+
+str_params = '\n'+str(n_generations)+' Generations\n'+str(n_population)+' Population Size\n'+str(crossover_per)+' Crossover\n'+str(mutation_per)+' Mutation'
+plt.suptitle("Total Distance Travelled: "+
+             str(round(minimum_distance, 3)) +
+             str_params, fontsize=18, y = 1.047)
+
+for i, txt in enumerate(shortest_path):
+    ax.annotate(str(i+1)+ "- " + txt, (x_shortest[i], y_shortest[i]), fontsize= 20)
+
+fig.set_size_inches(16, 12)
+# plt.grid(color='k', linestyle='dotted')
+st.pyplot(fig)
+
