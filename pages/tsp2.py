@@ -8,9 +8,9 @@ import pandas as pd
 import seaborn as sns
 import streamlit as st
 
-x = [0,3,6,7,15,10,16,5,8,1.5]
-y = [1,2,1,4.5,-1,2.5,11,6,9,12]
-cities_names = ["Gliwice", "Cairo", "Rome", "Krakow", "Paris", "Alexandria", "Berlin", "Tokyo", "Rio", "Budapest"]
+x = [1,3,5,7,8,10,13,12,14,10.9]
+y = [0,2,6,7.9,11,10.9,11,8,7,11]
+cities_names = ["JOHOR", "MELAKA", "N.SEMBILAN", "K.LUMPUR", "SELANGOR", "PERAK", "KEDAH", "PERLIS", "KELANTAN", "TERENGGANU"]
 city_coords = dict(zip(cities_names, zip(x, y)))
 n_population = 250
 crossover_per = 0.8
@@ -22,16 +22,16 @@ colors = sns.color_palette("pastel", len(cities_names))
 
 # City Icons
 city_icons = {
-    "Gliwice": "♕",
-    "Cairo": "♖",
-    "Rome": "♗",
-    "Krakow": "♘",
-    "Paris": "♙",
-    "Alexandria": "♔",
-    "Berlin": "♚",
-    "Tokyo": "♛",
-    "Rio": "♜",
-    "Budapest": "♝"
+    "JOHOR": "♕",
+    "MELAKA": "♖",
+    "N.SEMBILAN": "♗",
+    "K.LUMPUR": "♘",
+    "SELANGOR": "♙",
+    "PERAK": "♔",
+    "KEDAH": "♚",
+    "PERLIS": "♛",
+    "KELANTAN": "♜",
+    "TERENGGANU": "♝"
 }
 
 fig, ax = plt.subplots()
@@ -52,8 +52,8 @@ for i, (city, (city_x, city_y)) in enumerate(city_coords.items()):
             ax.plot([city_x, other_x], [city_y, other_y], color='gray', linestyle='-', linewidth=1, alpha=0.1)
 
 fig.set_size_inches(16, 12)
-st.pyplot(fig)
 
+st.pyplot(fig)
 #population
 def initial_population(cities_list, n_population = 250):
 
@@ -83,6 +83,7 @@ def dist_two_cities(city_1, city_2):
     city_1_coords = city_coords[city_1]
     city_2_coords = city_coords[city_2]
     return np.sqrt(np.sum((np.array(city_1_coords) - np.array(city_2_coords))**2))
+
 
 def total_dist_individual(individual):
 
@@ -260,7 +261,6 @@ def run_ga(cities_names, n_population, n_generations, crossover_per, mutation_pe
         random.shuffle(best_mixed_offspring)
 
     return best_mixed_offspring
-
 best_mixed_offspring = run_ga(cities_names, n_population, n_generations, crossover_per, mutation_per)
 
 total_dist_all_individuals = []
@@ -268,8 +268,6 @@ for i in range(0, n_population):
     total_dist_all_individuals.append(total_dist_individual(best_mixed_offspring[i]))
 
 index_minimum = np.argmin(total_dist_all_individuals)
-
-
 
 minimum_distance = min(total_dist_all_individuals)
 st.write(minimum_distance)
